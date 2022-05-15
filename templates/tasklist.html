@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load humanize %}
+
+    <div class="container my-2">
+        {% for section in all_list %}
+        <div class="col">
+            <div class="card text-dark bg-white mb-3" style="border: 0;">
+                <div class="card-header our d-flex align-items-center">
+                    <h5 class="card-title mb-0">{{ section.name }}</h5>
+                    <div class="card-tools ml-auto">
+                        <button type="button" class="btn btn-tool fas" data-bs-toggle="collapse" data-bs-target="#section{{ forloop.counter|add:"1" }}" aria-expanded="false" aria-controls="section{{ forloop.counter|add:"1" }}"></button>
+                    </div>
+                </div>
+                <div class="card-body bg-transparent text-dark collapse pb-0" id="section{{ forloop.counter|add:"1" }}">
+                    {% for question in section.ques_set %}
+                    <a href="{{slug}}/{{section.id}}/{{question.id}}">
+                        <div class="title mb-4" style="background: url(https://onlinecourses.apu.edu.in/sites/all/themes/simple_purple/images/simple_purple/icon-book-tick.png) no-repeat; padding-left: 28px; font-weight: 700;">{{ question.title }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="/static/jquery-3.6.0.min.js"></script>
+    <script>
+        function showHideAns(e) {
+            document.getElementById("ans-btn").toggleAttribute("hidden")
+            document.getElementById("ans-div").toggleAttribute("hidden")
+            document.getElementById("ans-cancel").toggleAttribute("hidden")
+        }
+    </script>
+    
+    <script>
+        // data.innerHTML = JSON.stringify({{ question|safe }}, null, 4)
+    </script>
+    <style>
+        .ans {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .btn-answer {
+            box-sizing: border-box; 
+            color: #2e69ff !important; 
+            border-radius: 20%/50%; 
+            font: inherit; 
+            padding: 0px 20px 0px 12px; 
+            transition-property: box-shadow, background-color; 
+            transition-duration: 60ms; 
+            transition-timing-function: ease-out; 
+            height: 38px; 
+            min-width: 38px; 
+            position: relative; 
+            box-shadow: rgba(46, 105, 255, 0.09) 0px 0px 0px 1px inset; 
+            border-width: 0px; 
+            outline: none; 
+            color: inherit;
+        }
+        .btn-answer:hover {
+            background-color: #d7e1ff;
+        }
+        .our button:before {
+            content: "\f107";
+            float: right;
+            transition: all 0.5s;
+            font-size: 20px;
+        }
+        .our.active button:before {
+            content: "\f106";
+        }
+    </style>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>tinymce.init({selector: '#desc', height : "400"});</script>
+    <style>
+        .tox-notifications-container {
+            display: none;
+        }
+    </style>
+    
+
+{% endblock body %}
