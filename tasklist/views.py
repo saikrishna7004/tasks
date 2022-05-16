@@ -7,7 +7,17 @@ from .models import Question, TaskInfo
 # Create your views here.
 
 def mytasks(request):
-    return render(request, "tasklist.html")
+    tasks = TaskInfo.objects.all().order_by("-id")
+    print(tasks)
+    task_list = []
+    for task in tasks:
+        task_list.append({
+            "id": task.id,
+            "name": task.name,
+            "slug": task.slug
+        })
+    print(task_list)
+    return render(request, "tasks.html", {"tasks": task_list})
 
 def taskinfo(request, slug):
     if request.user.is_anonymous:
