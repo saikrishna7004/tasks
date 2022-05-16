@@ -7,6 +7,8 @@ from .models import Question, TaskInfo
 # Create your views here.
 
 def mytasks(request):
+    if request.user.is_anonymous:
+        return redirect("/login")
     tasks = TaskInfo.objects.all().order_by("-id")
     print(tasks)
     task_list = []
